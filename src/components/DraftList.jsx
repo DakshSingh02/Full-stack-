@@ -1,260 +1,532 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { 
-  selectFilteredDrafts, 
-  deleteDraft, 
-  publishPost, 
-  setSearchQuery,
-  setPlatformFilter 
-} from '../features/posts/postsSlice';
-import { selectAllPlatforms } from '../features/platforms/platformsSlice';
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-export function DraftList() {
-  const drafts = useSelector(selectFilteredDrafts) || [];
-  const platforms = useSelector(selectAllPlatforms);
-  const searchQuery = useSelector((state) => state.posts.searchQuery || '');
-  const platformFilter = useSelector((state) => state.posts.platformFilter || 'all');
+import {
+  selectFilteredDrafts,
+  deleteDraft,
+  publishPost,
+  setSearchQuery
+} from "../features/posts/postsSlice";
+
+import {
+  selectAllPlatforms,
+  selectSelectedPlatformId,
+  setSelectedPlatform
+} from "../features/platforms/platformsSlice";
+
+
+function DraftList() {
+
   const dispatch = useDispatch();
 
-  const getPlatformName = (platformId) => {
-    if (!platformId) return 'General Draft';
-    const match = platforms.find((p) => p.id === platformId);
-    return match ? match.name : 'General Draft';
+
+  const drafts = useSelector(selectFilteredDrafts) || [];
+
+
+  const platforms = useSelector(
+    selectAllPlatforms
+  );
+
+
+  const selectedPlatformId = useSelector(
+    selectSelectedPlatformId
+  );
+
+
+  const searchQuery = useSelector(
+    state => state.posts.searchQuery || ""
+  );
+
+
+
+  const getPlatformName = (id) => {
+
+    const platform = platforms.find(
+      p => p.id === id
+    );
+
+
+    return platform
+      ? platform.name
+      : "General";
+
   };
 
+
+
   return (
-    <div style={styles.card}>
-      {/* Header and Controls Area */}
+
+    <div style={styles.container}>
+
+
+      {/* Header */}
+
       <div style={styles.header}>
+
         <div>
-          <h3 style={styles.title}>📂 Saved Drafts</h3>
-          <span style={styles.badge}>{drafts.length} total</span>
+
+          <h2 style={styles.title}>
+            📂 Drafts
+          </h2>
+
+
+          <span style={styles.count}>
+            {drafts.length} drafts
+          </span>
+
         </div>
+
+
 
         <div style={styles.controls}>
-          {/* Platform Filter */}
+
+
           <select
-            value={platformFilter}
-            onChange={(e) => dispatch(setPlatformFilter(e.target.value))}
+
+            value={selectedPlatformId}
+
+            onChange={(e)=>
+              dispatch(
+                setSelectedPlatform(
+                  e.target.value
+                )
+              )
+            }
+
             style={styles.select}
+
           >
-            <option value="all">All Platforms</option>
-            {platforms.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name}
-              </option>
-            ))}
+
+
+            <option value="all">
+              All Platforms
+            </option>
+
+
+            {
+              platforms.map(platform=>(
+
+                <option
+                  key={platform.id}
+                  value={platform.id}
+                >
+
+                  {platform.name}
+
+                </option>
+
+              ))
+            }
+
+
           </select>
 
-          {/* Search Input */}
-          <div style={styles.searchWrapper}>
-            <input
-              type="text"
-              placeholder="Search drafts..."
-              value={searchQuery}
-              onChange={(e) => dispatch(setSearchQuery(e.target.value))}
-              style={styles.searchInput}
-            />
-          </div>
+
+
+          <input
+
+            value={searchQuery}
+
+            onChange={(e)=>
+              dispatch(
+                setSearchQuery(
+                  e.target.value
+                )
+              )
+            }
+
+
+            placeholder="Search drafts..."
+
+            style={styles.input}
+
+          />
+
+
         </div>
+
+
       </div>
 
-      {/* List Content */}
-      {drafts.length === 0 ? (
-        <div style={styles.emptyState}>
-          <p style={{ margin: 0, fontSize: '15px' }}>
-            {searchQuery || platformFilter !== 'all'
-              ? 'No drafts found matching your filters.'
-              : 'No drafts created yet.'}
-          </p>
-        </div>
-      ) : (
-        <div style={styles.list}>
-          {drafts.map((draft) => (
-            <div key={draft.id} style={styles.listItem}>
-              <div style={styles.draftContent}>
-                <p style={styles.draftText}>
-                  {draft.content || <span style={{ color: '#94a3b8' }}>(Empty draft body)</span>}
-                </p>
 
-                {draft.attachment && (
-                  <div style={styles.attachmentBadge}>
-                    📎 {draft.attachment.name}
+
+
+
+      {/* Draft List */}
+
+
+      {
+        drafts.length === 0 ?
+
+
+        (
+
+          <div style={styles.empty}>
+
+            No drafts available
+
+          </div>
+
+        )
+
+
+        :
+
+
+        (
+
+          <div style={styles.list}>
+
+
+          {
+            drafts.map(draft=>(
+
+
+              <div
+                key={draft.id}
+                style={styles.card}
+              >
+
+
+                <div>
+
+
+                  <p style={styles.content}>
+
+                    {
+                      draft.content ||
+                      "Empty draft"
+                    }
+
+                  </p>
+
+
+
+                  <div style={styles.meta}>
+
+
+                    <span style={styles.tag}>
+
+                      {
+                        getPlatformName(
+                          draft.platformId
+                        )
+                      }
+
+                    </span>
+
+
+
+                    <span style={styles.time}>
+
+                      {
+                        draft.createdAt
+                        ?
+                        new Date(
+                          draft.createdAt
+                        ).toLocaleString()
+                        :
+                        ""
+                      }
+
+                    </span>
+
+
                   </div>
-                )}
 
-                <div style={styles.metaRow}>
-                  <span style={styles.platformTag}>
-                    {getPlatformName(draft.platformId)}
-                  </span>
-                  <span style={styles.timestamp}>
-                    {draft.createdAt ? new Date(draft.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
-                  </span>
+
                 </div>
+
+
+
+
+                <div style={styles.buttons}>
+
+
+                  <button
+
+                    onClick={()=>
+                      dispatch(
+                        publishPost(draft)
+                      )
+                    }
+
+                    style={styles.publish}
+
+                  >
+
+                    Publish
+
+                  </button>
+
+
+
+                  <button
+
+                    onClick={()=>
+                      dispatch(
+                        deleteDraft(
+                          draft.id
+                        )
+                      )
+                    }
+
+                    style={styles.delete}
+
+                  >
+
+                    Delete
+
+                  </button>
+
+
+                </div>
+
+
               </div>
 
-              <div style={styles.actions}>
-                <button
-                  onClick={() => dispatch(publishPost(draft))}
-                  style={styles.publishBtn}
-                >
-                  Publish
-                </button>
-                <button
-                  onClick={() => dispatch(deleteDraft(draft.id))}
-                  style={styles.deleteBtn}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+
+            ))
+          }
+
+
+          </div>
+
+        )
+
+      }
+
+
     </div>
+
   );
+
 }
 
+
+
 const styles = {
-  card: {
-    backgroundColor: '#ffffff',
-    borderRadius: '16px',
-    padding: '24px',
-    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01)',
-    border: '1px solid #e2e8f0',
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    gap: '16px',
-    marginBottom: '20px',
-  },
-  title: {
-    display: 'inline-block',
-    margin: '0 8px 0 0',
-    fontSize: '20px',
-    fontWeight: '700',
-    color: '#0f172a',
-  },
-  badge: {
-    backgroundColor: '#f1f5f9',
-    color: '#475569',
-    padding: '3px 10px',
-    borderRadius: '12px',
-    fontSize: '12px',
-    fontWeight: '600',
-  },
-  controls: {
-    display: 'flex',
-    gap: '10px',
-    alignItems: 'center',
-  },
-  select: {
-    padding: '8px 12px',
-    borderRadius: '8px',
-    border: '1px solid #cbd5e1',
-    backgroundColor: '#f8fafc',
-    fontSize: '13px',
-    fontWeight: '500',
-    color: '#334155',
-    outline: 'none',
-  },
-  searchWrapper: {
-    position: 'relative',
-  },
-  searchInput: {
-    padding: '8px 14px',
-    borderRadius: '8px',
-    border: '1px solid #cbd5e1',
-    backgroundColor: '#f8fafc',
-    fontSize: '13px',
-    color: '#1e293b',
-    outline: 'none',
-    width: '160px',
-  },
-  emptyState: {
-    textAlign: 'center',
-    padding: '40px 20px',
-    color: '#64748b',
-    backgroundColor: '#f8fafc',
-    borderRadius: '12px',
-    border: '1px dashed #cbd5e1',
-  },
-  list: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '12px',
-  },
-  listItem: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '16px',
-    borderRadius: '12px',
-    border: '1px solid #f1f5f9',
-    backgroundColor: '#fafafa',
-  },
-  draftContent: {
-    flex: 1,
-    marginRight: '16px',
-  },
-  draftText: {
-    margin: '0 0 8px 0',
-    fontSize: '15px',
-    fontWeight: '500',
-    color: '#1e293b',
-  },
-  attachmentBadge: {
-    fontSize: '12px',
-    color: '#2563eb',
-    marginBottom: '8px',
-    fontWeight: '500',
-  },
-  metaRow: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-  },
-  platformTag: {
-    fontSize: '11px',
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: '0.5px',
-    backgroundColor: '#e0e7ff',
-    color: '#3730a3',
-    padding: '2px 8px',
-    borderRadius: '6px',
-  },
-  timestamp: {
-    fontSize: '12px',
-    color: '#94a3b8',
-  },
-  actions: {
-    display: 'flex',
-    gap: '8px',
-  },
-  publishBtn: {
-    padding: '8px 14px',
-    borderRadius: '8px',
-    border: 'none',
-    backgroundColor: '#10b981',
-    color: '#ffffff',
-    fontWeight: '600',
-    fontSize: '13px',
-    cursor: 'pointer',
-  },
-  deleteBtn: {
-    padding: '8px 14px',
-    borderRadius: '8px',
-    border: '1px solid #fee2e2',
-    backgroundColor: '#fef2f2',
-    color: '#ef4444',
-    fontWeight: '600',
-    fontSize: '13px',
-    cursor: 'pointer',
-  },
+
+
+container:{
+
+background:"#fff",
+
+borderRadius:"16px",
+
+padding:"24px",
+
+boxShadow:
+"0 8px 20px rgba(0,0,0,.08)"
+
+},
+
+
+header:{
+
+display:"flex",
+
+justifyContent:"space-between",
+
+alignItems:"center",
+
+marginBottom:"20px",
+
+flexWrap:"wrap",
+
+gap:"15px"
+
+},
+
+
+title:{
+
+margin:0,
+
+fontSize:"22px",
+
+color:"#111827"
+
+},
+
+
+count:{
+
+background:"#e0e7ff",
+
+color:"#3730a3",
+
+padding:"5px 12px",
+
+borderRadius:"20px",
+
+fontSize:"13px"
+
+},
+
+
+controls:{
+
+display:"flex",
+
+gap:"10px"
+
+},
+
+
+select:{
+
+padding:"10px",
+
+borderRadius:"8px",
+
+border:"1px solid #cbd5e1"
+
+},
+
+
+input:{
+
+padding:"10px",
+
+borderRadius:"8px",
+
+border:"1px solid #cbd5e1"
+
+},
+
+
+list:{
+
+display:"flex",
+
+flexDirection:"column",
+
+gap:"12px"
+
+},
+
+
+card:{
+
+display:"flex",
+
+justifyContent:"space-between",
+
+alignItems:"center",
+
+padding:"16px",
+
+border:"1px solid #e5e7eb",
+
+borderRadius:"12px",
+
+background:"#fafafa"
+
+},
+
+
+content:{
+
+margin:0,
+
+fontSize:"16px",
+
+fontWeight:"600"
+
+},
+
+
+meta:{
+
+display:"flex",
+
+gap:"10px",
+
+marginTop:"8px"
+
+},
+
+
+tag:{
+
+background:"#dbeafe",
+
+color:"#1d4ed8",
+
+padding:"4px 10px",
+
+borderRadius:"10px",
+
+fontSize:"12px"
+
+},
+
+
+time:{
+
+fontSize:"12px",
+
+color:"#64748b"
+
+},
+
+
+buttons:{
+
+display:"flex",
+
+gap:"8px"
+
+},
+
+
+publish:{
+
+background:"#10b981",
+
+color:"#fff",
+
+border:"none",
+
+padding:"8px 14px",
+
+borderRadius:"8px",
+
+cursor:"pointer"
+
+},
+
+
+delete:{
+
+background:"#fee2e2",
+
+color:"#dc2626",
+
+border:"none",
+
+padding:"8px 14px",
+
+borderRadius:"8px",
+
+cursor:"pointer"
+
+},
+
+
+empty:{
+
+padding:"40px",
+
+textAlign:"center",
+
+color:"#64748b"
+
+}
+
+
 };
+
 
 export default DraftList;
