@@ -1,0 +1,391 @@
+/* ==========================================
+   GLOBAL RESET & ANIMATED BACKGROUND
+========================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(-45deg, #0f172a, #1e1b4b, #312e81, #0284c7);
+  background-size: 400% 400%;
+  animation: gradientFlow 15s ease infinite;
+  min-height: 100vh;
+  color: #f8fafc;
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ==========================================
+   MAIN CONTAINER & CARD ENTRANCE
+========================================== */
+.composer-container {
+  max-width: 850px;
+  margin: 40px auto;
+  padding: 20px;
+  animation: slideDownFade 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
+  padding: 35px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+  color: #0f172a;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 25px;
+}
+
+h2 {
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 30px 0 15px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #475569;
+  margin-bottom: 8px;
+}
+
+/* ==========================================
+   INPUTS & DROPDOWNS (Interactive Focus)
+========================================== */
+select,
+textarea,
+.filter-controls input {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 2px solid #e2e8f0;
+  background-color: #f8fafc;
+  font-size: 0.95rem;
+  color: #0f172a;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+  background-size: 18px;
+}
+
+select:hover,
+textarea:hover,
+.filter-controls input:hover {
+  border-color: #818cf8;
+  background-color: #ffffff;
+}
+
+select:focus,
+textarea:focus,
+.filter-controls input:focus {
+  border-color: #6366f1;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+  transform: translateY(-2px);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* ==========================================
+   HIGH-ENERGY BUTTON ANIMATIONS
+========================================== */
+button {
+  width: 100%;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 14px;
+  color: white;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ripple light effect on button hover */
+button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  transition: left 0.5s ease;
+  z-index: -1;
+}
+
+button:hover::before {
+  left: 100%;
+}
+
+button:hover {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+}
+
+button:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+button:disabled {
+  background: #cbd5e1 !important;
+  color: #94a3b8;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Button Variants */
+.save-btn {
+  background: linear-gradient(135deg, #4f46e5, #3b82f6);
+  margin-top: 15px;
+}
+
+.save-btn:hover {
+  background: linear-gradient(135deg, #4338ca, #2563eb);
+}
+
+.publish-btn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  margin-top: 12px;
+}
+
+.publish-btn:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.delete-btn {
+  width: auto;
+  background: linear-gradient(135deg, #f43f5e, #e11d48);
+  padding: 10px 20px;
+  font-size: 0.85rem;
+}
+
+.delete-btn:hover {
+  background: linear-gradient(135deg, #e11d48, #be123c);
+}
+
+/* ==========================================
+   STATS BAR & FILTER CONTROLS
+========================================== */
+.stats-bar {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.stats-bar span {
+  flex: 1;
+  min-width: 150px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 14px 18px;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.stats-bar span:hover {
+  background: rgba(255, 255, 255, 0.22);
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+}
+
+.filter-controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 25px;
+  animation: fadeIn 0.6s ease;
+}
+
+.filter-controls input {
+  flex: 2;
+}
+
+.filter-controls select {
+  flex: 1;
+  margin: 0;
+}
+
+/* ==========================================
+   CARDS & BADGES (Entry Animations)
+========================================== */
+.draft-card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 18px;
+  margin-top: 18px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-left: 6px solid #6366f1;
+  animation: cardEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.draft-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.18);
+}
+
+.draft-card p {
+  margin-top: 12px;
+  line-height: 1.6;
+  color: #334155;
+  font-size: 0.98rem;
+}
+
+.badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  padding: 5px 14px;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.draft-card a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  color: #4f46e5;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.draft-card a:hover {
+  transform: translateX(5px);
+  color: #3730a3;
+}
+
+.counter {
+  margin-top: 8px;
+  text-align: right;
+  color: #64748b;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.no-drafts {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1rem;
+  margin: 30px 0;
+  font-style: italic;
+}
+
+/* ==========================================
+   KEYFRAME ANIMATIONS
+========================================== */
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ==========================================
+   RESPONSIVE LAYOUT
+========================================== */
+@media (max-width: 768px) {
+  .composer-container { padding: 12px; }
+  .card { padding: 22px; }
+  .filter-controls { flex-direction: column; }
+  .stats-bar { flex-direction: column; }
+  .delete-btn { width: 100%; }
+}
