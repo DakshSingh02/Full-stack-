@@ -1,0 +1,88 @@
+.draft-list {
+  max-width: 700px;
+  margin: 30px auto 0;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.draft-list h2 {
+  margin: 0 0 20px;
+  text-align: center;
+  color: #111827;
+  font-size: 24px;
+}
+
+.draft-list > p {
+  text-align: center;
+  color: #64748b;
+  padding: 20px;
+}
+
+.draft {
+  padding: 18px;
+  margin-bottom: 14px;
+  border-radius: 15px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  transition: 0.2s ease;
+}
+
+.draft:hover {
+  transform: translateY(-2px);
+  border-color: #c7d2fe;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.draft p {
+  margin: 0 0 12px;
+  color: #1e293b;
+  font-size: 15px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.draft small {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.draft-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.draft-buttons button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.draft-buttons button:first-child {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.draft-buttons button:first-child:hover {
+  background: #c7d2fe;
+}
+
+.draft-buttons button:last-child {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.draft-buttons button:last-child:hover {
+  background: #fecaca;
+}
+
+@media (max-width: 600px) {
+  .draft-list {
+    padding: 18px;
+    border-radius: 16px;
+  }
+}

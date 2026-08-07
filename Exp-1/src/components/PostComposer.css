@@ -1,0 +1,147 @@
+.composer {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+}
+
+.composer h2 {
+  margin: 0 0 25px;
+  text-align: center;
+  font-size: 25px;
+  color: #111827;
+}
+
+.composer textarea {
+  width: 100%;
+  min-height: 160px;
+  padding: 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 14px;
+  resize: vertical;
+  outline: none;
+  font-size: 16px;
+  line-height: 1.5;
+  font-family: inherit;
+  background: #f8fafc;
+  transition: 0.2s ease;
+}
+
+.composer textarea:focus {
+  border-color: #6366f1;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+}
+
+.composer h3 {
+  margin: 25px 0 12px;
+  color: #374151;
+  font-size: 17px;
+}
+
+.composer label {
+  display: inline-flex;
+  align-items: center;
+  margin: 6px 8px 6px 0;
+  padding: 10px 15px;
+  border-radius: 10px;
+  background: #f1f5f9;
+  cursor: pointer;
+  color: #334155;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.composer label:hover {
+  background: #e0e7ff;
+  transform: translateY(-1px);
+}
+
+.composer input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  margin-right: 8px;
+  accent-color: #6366f1;
+}
+
+.counters {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 14px;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+}
+
+.counters h4 {
+  margin: 0 0 10px;
+  color: #3730a3;
+}
+
+.counters p {
+  margin: 5px 0;
+  color: #4338ca;
+  font-size: 14px;
+}
+
+.errors {
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 14px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+}
+
+.errors p {
+  margin: 5px 0;
+}
+
+.composer-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.composer-buttons button {
+  flex: 1;
+  padding: 13px 20px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.composer-buttons button:first-child {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.composer-buttons button:first-child:hover {
+  background: #c7d2fe;
+}
+
+.composer-buttons button:last-child {
+  background: #4f46e5;
+  color: white;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+}
+
+.composer-buttons button:last-child:hover {
+  background: #4338ca;
+}
+
+@media (max-width: 600px) {
+  .composer {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .composer-buttons {
+    flex-direction: column;
+  }
+}

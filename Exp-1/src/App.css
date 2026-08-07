@@ -1,0 +1,44 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #0f172a;
+}
+
+.App {
+  min-height: 100vh;
+  padding: 40px 20px 60px;
+  background:
+    radial-gradient(circle at top left, #312e81 0%, transparent 35%),
+    radial-gradient(circle at top right, #0f766e 0%, transparent 30%),
+    #0f172a;
+}
+
+.App h1 {
+  text-align: center;
+  color: white;
+  font-size: 38px;
+  margin-bottom: 35px;
+  letter-spacing: -1px;
+}
+
+button {
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+  .App {
+    padding: 25px 12px 40px;
+  }
+
+  .App h1 {
+    font-size: 28px;
+  }
+}
