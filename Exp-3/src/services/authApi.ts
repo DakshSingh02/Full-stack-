@@ -1,4 +1,5 @@
-import type { AuthUser, DemoAccount } from "@/types/auth";
+import type { AuthUser, DemoAccount, LoginResponse } from "@/types/auth";
+import { generateToken } from "@/lib/jwt";
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -35,7 +36,7 @@ export const DEMO_ACCOUNTS: DemoAccount[] = [
   },
 ];
 
-export async function login(username: string, password: string): Promise<AuthUser> {
+export async function login(username: string, password: string): Promise<LoginResponse> {
   await delay(800);
   const normalized = username.trim().toLowerCase();
   const account = DEMO_ACCOUNTS.find(
@@ -44,5 +45,10 @@ export async function login(username: string, password: string): Promise<AuthUse
   if (!account) {
     throw new Error("Invalid username or password.");
   }
-  return account.user;
+
+  const token = await generateToken(account.user);
+  return {
+    user: account.user,
+    token,
+  };
 }

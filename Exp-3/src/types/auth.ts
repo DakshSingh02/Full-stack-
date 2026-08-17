@@ -12,3 +12,9 @@ export interface DemoAccount {
   password: string;
   user: AuthUser;
 }
+
+export interface LoginResponse {
+  user: AuthUser;
+  token: string;
+}
+

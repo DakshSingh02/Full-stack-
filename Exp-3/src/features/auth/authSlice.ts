@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { getStoredSession, saveSession } from "@/lib/auth-session";
-import type { AuthUser } from "@/types/auth";
+import type { AuthUser, LoginResponse } from "@/types/auth";
 
 interface AuthState {
   user: AuthUser | null;
@@ -29,12 +29,13 @@ const authSlice = createSlice({
     setAuthError(state, action: PayloadAction<string | null>) {
       state.error = action.payload;
     },
-    loginSuccess(state, action: PayloadAction<AuthUser>) {
-      state.user = action.payload;
+    loginSuccess(state, action: PayloadAction<LoginResponse>) {
+      const { user, token } = action.payload;
+      state.user = user;
       state.isAuthenticated = true;
       state.loading = false;
       state.error = null;
-      saveSession(action.payload);
+      saveSession(token);
     },
     logout(state) {
       state.user = null;

@@ -30,9 +30,9 @@ export function LoginPage() {
     dispatch(setAuthError(null));
 
     try {
-      const user = await loginApi(username, password);
-      dispatch(loginSuccess(user));
-      notify.success(`Welcome back, ${user.name}!`);
+      const response = await loginApi(username, password);
+      dispatch(loginSuccess(response));
+      notify.success(`Welcome back, ${response.user.name}!`);
       navigate({ to: "/" });
     } catch (err) {
       const message = err instanceof Error ? err.message : "Unable to sign in. Please try again.";
